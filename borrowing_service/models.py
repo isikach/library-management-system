@@ -9,10 +9,7 @@ class Borrowing(models.Model):
     borrow_date = models.DateField(auto_now_add=True,)
     expected_return_date = models.DateField()
     actual_return_date = models.DateField(null=True, blank=True,)
-    book = models.ManyToManyField(
-        Book,
-        related_name="borrowings",
-    )
+    book = models.OneToOneField(Book, on_delete=models.CASCADE, related_name="borrowing")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -28,3 +25,8 @@ class Borrowing(models.Model):
     def clean(self):
         if self.borrow_date > self.expected_return_date:
             raise ValidationError("expected_return_date must be after borrow_date")
+
+        if self.book.inventory == 0:
+            raise ValidationError(
+                f"All '{self.book.title}' books are currently borrowed"
+            )
