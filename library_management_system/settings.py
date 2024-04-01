@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "book_service",
     "user",
+    "borrowing_service",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,9 @@ INTERNAL_IPS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
 }
 
 SPECTACULAR_SETTINGS = {
@@ -145,3 +149,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 AUTH_USER_MODEL = "user.User"
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZE"
+}
