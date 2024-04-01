@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import BookViewSet
+from book_service.views import BookViewSet
 
 router = DefaultRouter()
 router.register("books", BookViewSet)
