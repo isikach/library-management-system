@@ -4,11 +4,6 @@ from borrowing_service.models import Borrowing
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
-    book = serializers.SlugRelatedField(slug_field="title",)
-    user = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field="email",
-    )
 
     class Meta:
         model = Borrowing
@@ -20,3 +15,22 @@ class BorrowingSerializer(serializers.ModelSerializer):
             "user",
         )
         read_only_fields = ("actual_return_date", "borrow_date",)
+
+
+class BorrowingDetailSerializer(BorrowingSerializer):
+    # TODO book=BookDetailSerializer
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="email"
+    )
+
+
+class BorrowingListSerializer(BorrowingSerializer):
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="email"
+    )
+    book = serializers.SlugRelatedField(
+        slug_field="title"
+    )
+
