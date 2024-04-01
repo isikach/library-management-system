@@ -1,0 +1,222 @@
+[
+  {
+    "model": "book_service.book",
+    "pk": 1,
+    "fields": {
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "cover": "Hard",
+      "inventory": 10,
+      "daily_fee": "1.99"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 2,
+    "fields": {
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "cover": "Soft",
+      "inventory": 15,
+      "daily_fee": "2.49"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 3,
+    "fields": {
+      "title": "1984",
+      "author": "George Orwell",
+      "cover": "Hard",
+      "inventory": 20,
+      "daily_fee": "2.99"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 4,
+    "fields": {
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "cover": "Soft",
+      "inventory": 12,
+      "daily_fee": "1.79"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 5,
+    "fields": {
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "cover": "Hard",
+      "inventory": 8,
+      "daily_fee": "1.59"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 6,
+    "fields": {
+      "title": "Moby-Dick",
+      "author": "Herman Melville",
+      "cover": "Soft",
+      "inventory": 18,
+      "daily_fee": "2.29"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 7,
+    "fields": {
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "cover": "Hard",
+      "inventory": 14,
+      "daily_fee": "2.09"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 8,
+    "fields": {
+      "title": "Frankenstein",
+      "author": "Mary Shelley",
+      "cover": "Hard",
+      "inventory": 22,
+      "daily_fee": "2.79"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 9,
+    "fields": {
+      "title": "War and Peace",
+      "author": "Leo Tolstoy",
+      "cover": "Soft",
+      "inventory": 16,
+      "daily_fee": "3.49"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 10,
+    "fields": {
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "cover": "Hard",
+      "inventory": 11,
+      "daily_fee": "2.39"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 11,
+    "fields": {
+      "title": "The Odyssey",
+      "author": "Homer",
+      "cover": "Soft",
+      "inventory": 19,
+      "daily_fee": "2.19"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 12,
+    "fields": {
+      "title": "Dracula",
+      "author": "Bram Stoker",
+      "cover": "Hard",
+      "inventory": 13,
+      "daily_fee": "2.69"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 13,
+    "fields": {
+      "title": "Anna Karenina",
+      "author": "Leo Tolstoy",
+      "cover": "Soft",
+      "inventory": 17,
+      "daily_fee": "3.29"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 14,
+    "fields": {
+      "title": "The Grapes of Wrath",
+      "author": "John Steinbeck",
+      "cover": "Hard",
+      "inventory": 21,
+      "daily_fee": "2.89"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 15,
+    "fields": {
+      "title": "Alice's Adventures in Wonderland",
+      "author": "Lewis Carroll",
+      "cover": "Soft",
+      "inventory": 25,
+      "daily_fee": "3.09"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 16,
+    "fields": {
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "cover": "Soft",
+      "inventory": 30,
+      "daily_fee": "2.99"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 17,
+    "fields": {
+      "title": "The Lord of the Rings",
+      "author": "J.R.R. Tolkien",
+      "cover": "Hard",
+  "inventory": 28,
+  "daily_fee": "3.99"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 18,
+    "fields": {
+      "title": "The Brothers Karamazov",
+      "author": "Fyodor Dostoevsky",
+      "cover": "Hard",
+      "inventory": 17,
+      "daily_fee": "3.49"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 19,
+    "fields": {
+      "title": "The Adventures of Huckleberry Finn",
+      "author": "Mark Twain",
+      "cover": "Soft",
+      "inventory": 23,
+      "daily_fee": "2.59"
+    }
+  },
+  {
+    "model": "book_service.book",
+    "pk": 20,
+    "fields": {
+      "title": "One Hundred Years of Solitude",
+      "author": "Gabriel Garcia Marquez",
+      "cover": "Soft",
+      "inventory": 26,
+      "daily_fee": "3.79"
+    }
+  }
+]
