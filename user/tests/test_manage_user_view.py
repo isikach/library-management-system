@@ -27,7 +27,7 @@ class AuthenticatedManageUserTest(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    def test_reservation_list_access(self):
+    def test_manage_user_view_access(self):
         res = self.client.get(MANAGE_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
