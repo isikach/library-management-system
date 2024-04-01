@@ -47,7 +47,5 @@ class BookViewSet(viewsets.ModelViewSet):
         ]
     )
     def list(self, request, *args, **kwargs):
-        """
-        Displays the list f all books.
-        """
+
         return super().list(request, *args, **kwargs)
