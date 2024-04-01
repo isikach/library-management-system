@@ -10,12 +10,12 @@ class Borrowing(models.Model):
     expected_return_date = models.DateField()
     actual_return_date = models.DateField(null=True, blank=True,)
     book = models.OneToOneField(
-        Book, on_delete=models.CASCADE,
+        Book, on_delete=models.PROTECT,
         related_name="borrowing"
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="borrowings",
     )
 
