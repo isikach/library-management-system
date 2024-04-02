@@ -9,6 +9,7 @@ from payment_service.models import Borrowing, Payment
 class PaymentService:
     FINE_MULTIPLIER = 2
     STRIPE_API_KEY = os.environ["STRIPE_API_KEY"]
+
     SUCCESS_URL = (
         "http://localhost:8000/api/payments/success?session_id={CHECKOUT_SESSION_ID}"
     )
