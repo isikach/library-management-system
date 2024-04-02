@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
     "debug_toolbar",
     "drf_spectacular",
     "book_service",
     "user",
     "borrowing_service",
+    "payment_service",
 ]
 
 MIDDLEWARE = [
