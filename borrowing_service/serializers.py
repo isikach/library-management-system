@@ -46,7 +46,6 @@ class BorrowingSerializer(serializers.ModelSerializer):
             )
             book.inventory -= 1
             book.save()
-            validated_data["borrow_date"] = datetime.date.today()
             return Borrowing.objects.create(**validated_data)
 
 

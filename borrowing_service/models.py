@@ -8,7 +8,7 @@ from book_service.models import Book
 
 
 class Borrowing(models.Model):
-    borrow_date = models.DateField()
+    borrow_date = models.DateField(auto_now_add=True)
     expected_return_date = models.DateField()
     actual_return_date = models.DateField(null=True, blank=True,)
     book = models.ForeignKey(
@@ -53,7 +53,7 @@ class Borrowing(models.Model):
             )
 
     def clean(self):
-        if self.borrow_date > self.expected_return_date:
+        if datetime.date.today() > self.expected_return_date:
             raise ValidationError("expected_return_date must be after borrow_date")
 
     def save(
