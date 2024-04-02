@@ -12,7 +12,7 @@ class Borrowing(models.Model):
     book = models.ForeignKey(
         Book,
         on_delete=models.PROTECT,
-        related_name="borrowings"
+        related_name="borrowings",
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -26,14 +26,16 @@ class Borrowing(models.Model):
     def __str__(self):
         return f"Borrowing #{self.id}"
 
+    @staticmethod
+    def validate_book_inventory(inventory: int, book_title):
+        if inventory == 0:
+            raise ValidationError(f"All '{book_title}' books are currently borrowed")
+
     def clean(self):
         if self.borrow_date > self.expected_return_date:
             raise ValidationError("expected_return_date must be after borrow_date")
 
-        if self.book.inventory == 0:
-            raise ValidationError(
-                f"All '{self.book.title}' books are currently borrowed"
-            )
+        Borrowing.validate_book_inventory(self.book.inventory, self.book.title)
 
     def save(
             self,
