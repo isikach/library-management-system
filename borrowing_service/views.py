@@ -17,11 +17,7 @@ class BorrowingViewSet(
 ):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
-
-    def get_permissions(self):
-        if self.action == "create":
-            return [IsAuthenticated()]
-        return []
+    permission_classes = [IsAuthenticated,]
 
     def get_queryset(self):
         queryset = self.queryset.filter(user=self.request.user)
@@ -52,6 +48,7 @@ class BorrowingViewSet(
 
         borrowing.actual_return_date = datetime.date.today()
         borrowing.book.inventory += 1
+        borrowing.book.save()
         borrowing.save()
 
         return Response("Successfully returned.", status=status.HTTP_200_OK)
