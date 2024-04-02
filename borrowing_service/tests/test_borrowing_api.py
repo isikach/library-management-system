@@ -118,7 +118,12 @@ class AuthenticatedBorrowingApiTests(TestCase):
             actual_return_date=datetime.date.today()
         )
 
-        res = self.client.post(reverse("borrowing_service:borrowing-return-borrowing", args=[borrowing.id]))
+        res = self.client.post(
+            reverse(
+                "borrowing_service:borrowing-return-borrowing",
+                args=[borrowing.id]
+            )
+        )
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -127,7 +132,12 @@ class AuthenticatedBorrowingApiTests(TestCase):
         borrowing.expected_return_date = datetime.date.fromisoformat("2024-04-06")
         inventory = borrowing.book.inventory
 
-        self.client.post(reverse("borrowing_service:borrowing-return-borrowing", args=[borrowing.id]))
+        self.client.post(
+            reverse(
+                "borrowing_service:borrowing-return-borrowing",
+                args=[borrowing.id]
+            )
+        )
 
         borrowing.refresh_from_db()
         self.assertEqual(borrowing.actual_return_date, datetime.date.today())
@@ -140,7 +150,12 @@ class AuthenticatedBorrowingApiTests(TestCase):
         borrowing.borrow_date = datetime.date.fromisoformat("2024-03-29")
         borrowing.expected_return_date = datetime.date.fromisoformat("2024-04-01")
 
-        res = self.client.post(reverse("borrowing_service:borrowing-return-borrowing", args=[borrowing.id]))
+        res = self.client.post(
+            reverse(
+                "borrowing_service:borrowing-return-borrowing",
+                args=[borrowing.id]
+            )
+        )
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
