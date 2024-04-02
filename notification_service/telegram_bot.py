@@ -10,14 +10,14 @@ django.setup()
 
 
 class BookBorrowingBot:
-    API_TOKEN = os.environ.get('API_TOKEN')
+    API_TOKEN = os.environ.get("API_TOKEN")
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.bot = telebot.TeleBot(self.API_TOKEN)
-        self.bot.message_handler(commands=['start'])(self.send_welcome)
+        self.bot.message_handler(commands=["start"])(self.send_welcome)
         self.bot.message_handler(content_types=["text"])(self.get_user_chat_id)
 
-    def send_welcome(self, message):
+    def send_welcome(self, message: telebot.types.Message) -> None:
         self.bot.reply_to(message, "Hi! I can help you to manage your book borrowing. "
                                    "First write your e-mail")
 
@@ -36,8 +36,8 @@ class BookBorrowingBot:
 
     def create_borrowing_notification(
             self,
-            title,
-            user
+            title: str,
+            user: get_user_model()
     ) -> None:
         chat_id = user.telegram_id
         self.bot.send_message(
@@ -47,15 +47,15 @@ class BookBorrowingBot:
 
     def success_payment_notification(
             self,
-            user
+            user: get_user_model()
     ) -> None:
         chat_id = user.telegram_id
         self.bot.send_message(
             chat_id,
-            f"Your payment approved successfully!"
+            "Your payment approved successfully!"
         )
 
-    def start_polling(self):
+    def start_polling(self) -> None:
         self.bot.polling()
 
 
