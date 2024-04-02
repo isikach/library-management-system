@@ -31,6 +31,11 @@ urlpatterns = [
             "book_service.urls", namespace="book_service"
         )
     ),
+    path("api/borrowings/", include(
+        "borrowing_service.urls",
+        namespace="borrowing_service",
+        )
+    ),
     path("__debug__/", include("debug_toolbar.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
