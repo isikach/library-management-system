@@ -28,7 +28,12 @@ class BorrowingSerializer(serializers.ModelSerializer):
             attrs["book"].id,
         )
         if datetime.date.today() > attrs["expected_return_date"]:
-            raise serializers.ValidationError({"borrow_date": "expected_return_date must be after borrow_date"})
+            raise serializers.ValidationError(
+                {
+                    "borrow_date":
+                    "expected_return_date must be after borrow_date"
+                 }
+            )
         return data
 
     def create(self, validated_data):
@@ -69,4 +74,3 @@ class BorrowingListSerializer(BorrowingSerializer):
         slug_field="title",
         read_only=True,
     )
-

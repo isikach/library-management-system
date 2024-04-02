@@ -6,7 +6,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from borrowing_service.models import Borrowing
-from borrowing_service.serializers import BorrowingSerializer, BorrowingDetailSerializer, BorrowingListSerializer
+from borrowing_service.serializers import (
+    BorrowingSerializer,
+    BorrowingDetailSerializer,
+    BorrowingListSerializer
+)
 
 
 class BorrowingViewSet(
@@ -52,7 +56,10 @@ class BorrowingViewSet(
         borrowing = self.get_object()
 
         if borrowing.actual_return_date:
-            return Response("This borrowing has already been returned.", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "This borrowing has already been returned.",
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         borrowing.actual_return_date = datetime.date.today()
         borrowing.book.inventory += 1
