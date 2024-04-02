@@ -1,6 +1,9 @@
+import datetime
+
 from django.db import transaction
 from rest_framework import serializers
 
+from book_service.serializers import BookSerializer
 from borrowing_service.models import Borrowing
 
 
@@ -27,26 +30,38 @@ class BorrowingSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         with transaction.atomic():
-            book = validated_data.pop("book")
+            book = validated_data["book"]
+            Borrowing.validate_book_inventory(
+                book.inventory,
+                book.title,
+                book.id,
+            )
             book.inventory -= 1
             book.save()
-
+            validated_data["borrow_date"] = datetime.date.today()
             return Borrowing.objects.create(**validated_data)
 
 
-class BorrowingDetailSerializer(BorrowingSerializer):
-    # TODO book=BookDetailSerializer
+class BorrowingDetailSerializer(serializers.ModelSerializer):
+    book = BookSerializer(read_only=True)
     user = serializers.SlugRelatedField(
         read_only=True,
         slug_field="email",
     )
+
+    class Meta:
+        model = Borrowing
+        fields = (
+            "id",
+            "borrow_date",
+            "expected_return_date",
+            "actual_return_date",
+            "book",
+            "user",
+        )
 
 
 class BorrowingListSerializer(BorrowingSerializer):
-    user = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field="email",
-    )
     book = serializers.SlugRelatedField(
         slug_field="title",
         read_only=True,
