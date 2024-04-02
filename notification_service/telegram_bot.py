@@ -55,6 +55,17 @@ class BookBorrowingBot:
             "Your payment approved successfully!"
         )
 
+    def overdue_borrowing_notification(
+            self,
+            user: get_user_model(),
+            books: str
+    ) -> None:
+        chat_id = user.telegram_id
+        self.bot.send_message(
+            chat_id,
+            f"Your borrowing is overdue for the following books: {books}."
+        )
+
     def start_polling(self) -> None:
         self.bot.polling()
 
