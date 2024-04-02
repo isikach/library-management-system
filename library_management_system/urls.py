@@ -31,7 +31,7 @@ urlpatterns = [
             "book_service.urls", namespace="book_service"
         )
     ),
-    path("api/borrowings/", include(
+    path("api/", include(
         "borrowing_service.urls",
         namespace="borrowing_service",
         )
