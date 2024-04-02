@@ -47,15 +47,16 @@ class Borrowing(models.Model):
         if inventory == 0:
             next_return_date = Borrowing.get_next_return_date(book_id)
             raise ValidationError(
-                f"All '{book_title}' books are currently borrowed,"
-                f" come back on {next_return_date}"
+                {
+                    "book_inventory": f"All '{book_title}' "
+                                      f"books are currently borrowed, "
+                                      f"come back on {next_return_date}"
+                }
             )
 
     def clean(self):
         if self.borrow_date > self.expected_return_date:
             raise ValidationError("expected_return_date must be after borrow_date")
-
-        Borrowing.validate_book_inventory(self.book.inventory, self.book.title, self.book.id)
 
     def save(
             self,
