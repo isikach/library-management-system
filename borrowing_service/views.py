@@ -19,7 +19,7 @@ class BorrowingViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = Borrowing.objects.all()
+    queryset = Borrowing.objects.select_related("book")
     serializer_class = BorrowingSerializer
     permission_classes = [IsAuthenticated,]
 
