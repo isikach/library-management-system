@@ -1,5 +1,7 @@
 import datetime
 
+from django.db import transaction
+from django.shortcuts import redirect
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -11,6 +13,7 @@ from borrowing_service.serializers import (
     BorrowingDetailSerializer,
     BorrowingListSerializer
 )
+from payment_service.utils.services import PaymentService
 
 
 class BorrowingViewSet(
@@ -48,10 +51,16 @@ class BorrowingViewSet(
 
         return self.serializer_class
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-    @action(methods=["POST"], detail=True, url_path="return")
+        borrowing = serializer.save(user=self.request.user)
+        session_url = borrowing.payments.first().session_url
+
+        return redirect(session_url)
+
+    @action(methods=["GET"], detail=True, url_path="return")
     def return_borrowing(self, request, pk=None):
         borrowing = self.get_object()
 
@@ -61,9 +70,14 @@ class BorrowingViewSet(
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        borrowing.actual_return_date = datetime.date.today()
-        borrowing.book.inventory += 1
-        borrowing.book.save()
-        borrowing.save()
+        with transaction.atomic():
+            borrowing.actual_return_date = datetime.date.today()
+            borrowing.book.inventory += 1
+            borrowing.book.save()
+            borrowing.save()
 
-        return Response("Successfully returned.", status=status.HTTP_200_OK)
+            if borrowing.actual_return_date > borrowing.expected_return_date:
+                PaymentService().create_fine_payment(borrowing)
+                session_url = borrowing.payments.last().session_url
+
+                return redirect(session_url)
