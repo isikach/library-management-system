@@ -81,3 +81,6 @@ class BorrowingViewSet(
                 session_url = borrowing.payments.last().session_url
 
                 return redirect(session_url)
+
+            data = {"success": "Your borrowing was closed successfully"}
+            return Response(data=data, status=status.HTTP_200_OK)
