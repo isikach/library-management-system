@@ -3,6 +3,7 @@ from decimal import Decimal
 
 import stripe
 
+from notification_service.telegram_bot import BookBorrowingBot
 from payment_service.models import Borrowing, Payment
 
 
@@ -81,3 +82,6 @@ class PaymentService:
         payment = Payment.objects.get(session_id=session_id)
         payment.status = Payment.Status.PAID
         payment.save()
+
+        user = payment.borrowing.user
+        BookBorrowingBot().success_payment_notification(user)
