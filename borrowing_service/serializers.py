@@ -20,7 +20,8 @@ class BorrowingSerializer(serializers.ModelSerializer):
         data = super(BorrowingSerializer, self).validate(attrs)
         Borrowing.validate_book_inventory(
             attrs["book"].inventory,
-            attrs["book"].title
+            attrs["book"].title,
+            attrs["book"].id,
         )
         return data
 
