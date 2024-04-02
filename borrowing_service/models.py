@@ -8,7 +8,7 @@ from book_service.models import Book
 
 
 class Borrowing(models.Model):
-    borrow_date = models.DateField(auto_now_add=True,)
+    borrow_date = models.DateField()
     expected_return_date = models.DateField()
     actual_return_date = models.DateField(null=True, blank=True,)
     book = models.ForeignKey(
@@ -35,17 +35,20 @@ class Borrowing(models.Model):
         next_borrowing = Borrowing.objects.filter(
             book_id=book_id,
             expected_return_date__gt=current_date,
-        ).order_by("-expected_return_date").first()
+        ).order_by("expected_return_date").first()
 
-        return next_borrowing.expected_return_date
+        if next_borrowing:
+            return next_borrowing.expected_return_date
+
+        return None
 
     @staticmethod
     def validate_book_inventory(inventory: int, book_title: str, book_id: int):
         if inventory == 0:
             next_return_date = Borrowing.get_next_return_date(book_id)
             raise ValidationError(
-                f"All '{book_title}' books are currently borrowed"
-                f" Come back on {next_return_date}"
+                f"All '{book_title}' books are currently borrowed,"
+                f" come back on {next_return_date}"
             )
 
     def clean(self):
