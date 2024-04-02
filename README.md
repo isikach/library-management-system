@@ -48,7 +48,7 @@ python3 manage.py runserver
 
 ## Features
 
-* JWT authenticated
+* JWT authentication
 * Admin panel /admin/
 * Documentation is located at /api/schema/swagger-ui/
 * Managing books, borrowings and users
