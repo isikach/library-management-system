@@ -43,7 +43,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
     is_active = models.BooleanField(_("active"), default=False)
-    telegram_id = models.IntegerField(_("Telegram ID"))
+    telegram_id = models.IntegerField(_("Telegram ID"), blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
