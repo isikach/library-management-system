@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from book_service.serializers import BookSerializer
 from borrowing_service.models import Borrowing
+from notification_service.telegram_bot import BookBorrowingBot
 from payment_service.serializers import PaymentBorrowingSerializer
 from payment_service.utils.services import PaymentService
 
@@ -46,6 +47,10 @@ class BorrowingSerializer(serializers.ModelSerializer):
 
             borrowing = Borrowing.objects.create(**validated_data)
             PaymentService().create_initial_payment(borrowing)
+            BookBorrowingBot().create_borrowing_notification(
+                book.title,
+                validated_data["user"]
+            )
 
             return borrowing
 

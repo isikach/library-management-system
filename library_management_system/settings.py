@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "user",
     "borrowing_service",
     "payment_service",
+    'rest_framework_simplejwt',
+    "notification_service"
+
 ]
 
 MIDDLEWARE = [
