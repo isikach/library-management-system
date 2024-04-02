@@ -1,4 +1,5 @@
 from rest_framework import viewsets, mixins
+from rest_framework.permissions import IsAuthenticated
 
 from borrowing_service.models import Borrowing
 from borrowing_service.serializers import BorrowingSerializer, BorrowingDetailSerializer, BorrowingListSerializer
@@ -12,6 +13,10 @@ class BorrowingViewSet(
 ):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [IsAuthenticated]
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
