@@ -37,10 +37,7 @@ class Borrowing(models.Model):
             expected_return_date__gt=current_date,
         ).order_by("expected_return_date").first()
 
-        if next_borrowing:
-            return next_borrowing.expected_return_date
-
-        return None
+        return next_borrowing.expected_return_date
 
     @staticmethod
     def validate_book_inventory(inventory: int, book_title: str, book_id: int) -> None:
