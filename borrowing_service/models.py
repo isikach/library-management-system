@@ -29,7 +29,7 @@ class Borrowing(models.Model):
         return f"Borrowing #{self.id}"
 
     @staticmethod
-    def get_next_return_date(book_id: int) -> datetime.date|None:
+    def get_next_return_date(book_id: int) -> datetime.date | None:
         current_date = datetime.date.today()
 
         next_borrowing = Borrowing.objects.filter(
@@ -43,14 +43,15 @@ class Borrowing(models.Model):
         return None
 
     @staticmethod
-    def validate_book_inventory(inventory: int, book_title: str, book_id: int):
+    def validate_book_inventory(inventory: int, book_title: str, book_id: int) -> None:
         if inventory == 0:
             next_return_date = Borrowing.get_next_return_date(book_id)
             raise ValidationError(
                 {
-                    "book_inventory": f"All '{book_title}' "
-                                      f"books are currently borrowed, "
-                                      f"come back on {next_return_date}"
+                    "book_inventory":
+                    f"All '{book_title}' "
+                    f"books are currently borrowed, "
+                    f"come back on {next_return_date}"
                 }
             )
 
