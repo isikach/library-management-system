@@ -12,12 +12,13 @@ class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
         fields = (
+            "id",
             "borrow_date",
             "expected_return_date",
             "actual_return_date",
             "book",
         )
-        read_only_fields = ("actual_return_date", "borrow_date",)
+        read_only_fields = ("id", "actual_return_date", "borrow_date",)
 
     def validate(self, attrs):
         data = super(BorrowingSerializer, self).validate(attrs)
