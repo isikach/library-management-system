@@ -32,8 +32,8 @@ class UnauthenticatedBookAPITests(TestCase):
         sample_book()
         response = self.client.get(BOOK_LIST_URL)
 
-        movies = Book.objects.all().order_by("id")
-        serializer = BookSerializer(movies, many=True)
+        books = Book.objects.all().order_by("id")
+        serializer = BookSerializer(books, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
@@ -67,8 +67,8 @@ class AuthenticatedBookAPITests(TestCase):
         sample_book()
         response = self.client.get(BOOK_LIST_URL)
 
-        movies = Book.objects.all().order_by("id")
-        serializer = BookSerializer(movies, many=True)
+        books = Book.objects.all().order_by("id")
+        serializer = BookSerializer(books, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
