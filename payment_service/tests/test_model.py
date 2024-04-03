@@ -14,6 +14,7 @@ def sample_payment(**params):
             email="test@test.com",
             password="test12345",
             telegram_id=1,
+            is_active=True,
         )
 
     borrowing = Borrowing.objects.create(
