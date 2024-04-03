@@ -2,6 +2,7 @@ import datetime
 
 from django.db import transaction
 from django.shortcuts import redirect
+from drf_spectacular.utils import extend_schema_view
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -13,9 +14,13 @@ from borrowing_service.serializers import (
     BorrowingDetailSerializer,
     BorrowingListSerializer
 )
+from borrowing_service.utils.schemas import borrowing_list_schema
 from payment_service.utils.services import PaymentService
 
 
+@extend_schema_view(
+    list=borrowing_list_schema()
+)
 class BorrowingViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
