@@ -78,7 +78,7 @@ class AuthenticatedBorrowingApiTests(TestCase):
         res2 = self.client.post(BORROWING_URL, data2, format="json")
         res3 = self.client.post(BORROWING_URL, data3, format="json")
 
-        self.assertEqual(res1.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(res1.status_code, status.HTTP_302_FOUND)
         self.assertEqual(res2.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(res3.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -96,6 +96,56 @@ class AuthenticatedBorrowingApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+    def test_is_active_filtering(self):
+        borrowing1 = sample_borrowing(user=self.user)
+        borrowing2 = sample_borrowing(
+            user=self.user,
+            actual_return_date=datetime.date.today()
+        )
+
+        res = self.client.get(BORROWING_URL, {"is_active": "true"})
+
+        serializer1 = BorrowingListSerializer(borrowing1)
+        serializer2 = BorrowingListSerializer(borrowing2)
+
+        self.assertIn(serializer1.data, res.data)
+        self.assertNotIn(serializer2.data, res.data)
+
+    def test_return_borrowing_that_is_already_returned(self):
+        borrowing = sample_borrowing(
+            user=self.user,
+            actual_return_date=datetime.date.today()
+        )
+
+        res = self.client.post(reverse("borrowing_service:borrowing-return-borrowing", args=[borrowing.id]))
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_return_borrowing_is_success(self):
+        borrowing = sample_borrowing(user=self.user)
+        borrowing.expected_return_date = datetime.date.fromisoformat("2024-04-06")
+        inventory = borrowing.book.inventory
+
+        self.client.post(reverse("borrowing_service:borrowing-return-borrowing", args=[borrowing.id]))
+
+        borrowing.refresh_from_db()
+        self.assertEqual(borrowing.actual_return_date, datetime.date.today())
+
+        borrowing.book.refresh_from_db()
+        self.assertEqual(borrowing.book.inventory, inventory + 1)
+
+    def test_return_overdue_borrowing(self):
+        borrowing = sample_borrowing(user=self.user)
+        borrowing.borrow_date = datetime.date.fromisoformat("2024-03-29")
+        borrowing.expected_return_date = datetime.date.fromisoformat("2024-04-01")
+
+        res = self.client.post(reverse("borrowing_service:borrowing-return-borrowing", args=[borrowing.id]))
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        borrowing.refresh_from_db()
+        self.assertEqual(borrowing.actual_return_date, datetime.date.today())
 
 
 class AdminBorrowingApiTest(TestCase):
