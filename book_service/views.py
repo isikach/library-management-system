@@ -1,10 +1,11 @@
 from rest_framework import viewsets, permissions
 
 from rest_framework.filters import SearchFilter, OrderingFilter
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema_view
 
 from book_service.models import Book
 from book_service.serializers import BookSerializer
+from book_service.utils.schemas import book_list_schema
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -27,25 +28,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
         return super().get_permissions()
 
-    @extend_schema(
-        parameters=[
-            OpenApiParameter(
-                name="search",
-                description=(
-                        "Search books by title or author,"
-                        " ?search=title/author"
-                ),
-                type=str,
-                required=False,
-            ),
-            OpenApiParameter(
-                name="ordering",
-                description="Order books by author ?ordering=author",
-                type=str,
-                required=False,
-            ),
-        ]
-    )
+    @extend_schema_view(list=book_list_schema)
     def list(self, request, *args, **kwargs):
 
         return super().list(request, *args, **kwargs)
