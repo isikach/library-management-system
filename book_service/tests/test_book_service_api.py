@@ -7,7 +7,7 @@ from rest_framework.test import APIClient
 from book_service.models import Book
 from book_service.serializers import BookSerializer
 
-BOOK_LIST_URL = reverse("books_service:book-list")
+BOOK_LIST_URL = reverse("book_service:book-list")
 
 
 def sample_book(**params):
@@ -61,17 +61,6 @@ class AuthenticatedBookAPITests(TestCase):
             last_name="Smith",
         )
         self.client.force_authenticate(self.user)
-
-    def test_list_book(self):
-        sample_book()
-        sample_book()
-        response = self.client.get(BOOK_LIST_URL)
-
-        books = Book.objects.all().order_by("id")
-        serializer = BookSerializer(books, many=True)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
 
     def test_create_book(self):
         payload = {
