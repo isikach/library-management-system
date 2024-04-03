@@ -109,8 +109,8 @@ class AuthenticatedBorrowingApiTests(TestCase):
         serializer1 = BorrowingListSerializer(borrowing1)
         serializer2 = BorrowingListSerializer(borrowing2)
 
-        self.assertIn(serializer1.data, res.data)
-        self.assertNotIn(serializer2.data, res.data)
+        self.assertIn(serializer1.data, res.data.get("results"))
+        self.assertNotIn(serializer2.data, res.data.get("results"))
 
     def test_return_borrowing_that_is_already_returned(self):
         borrowing = sample_borrowing(
@@ -190,5 +190,5 @@ class AdminBorrowingApiTest(TestCase):
         serializer1 = BorrowingListSerializer(borrowing1)
         serializer2 = BorrowingListSerializer(borrowing2)
 
-        self.assertIn(serializer1.data, res.data)
-        self.assertNotIn(serializer2.data, res.data)
+        self.assertIn(serializer1.data, res.data.get("results"))
+        self.assertNotIn(serializer2.data, res.data.get("results"))
