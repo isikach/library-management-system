@@ -25,7 +25,7 @@ class PaymentViewSet(
         if self.request.user.is_staff:
             return queryset
 
-        return queryset.filter(user=self.request.user)
+        return queryset.filter(borrowing__user=self.request.user)
 
     @action(
         methods=["GET"],
