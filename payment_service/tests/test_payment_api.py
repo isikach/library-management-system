@@ -41,6 +41,7 @@ class AuthenticatedPaymentApiTest(TestCase):
             email="test@test.com",
             password="test12345",
             telegram_id=1,
+            is_active=True,
         )
         self.borrowing = Borrowing.objects.create(
             expected_return_date=datetime.date.today() + datetime.timedelta(days=5),
@@ -62,7 +63,7 @@ class AuthenticatedPaymentApiTest(TestCase):
         serializer = PaymentSerializer(payments, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data.get("results"), serializer.data)
 
     def test_payment_retrieve(self):
         res = self.client.get(detail_url(self.payment.id))
