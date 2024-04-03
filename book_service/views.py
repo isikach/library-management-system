@@ -20,7 +20,7 @@ class BookViewSet(viewsets.ModelViewSet):
             return [permissions.IsAdminUser()]
 
         elif self.action == "list":
-            return [permissions.IsAuthenticatedOrReadOnly()]
+            return [permissions.AllowAny()]
 
         elif self.action == "retrieve":
             return [permissions.IsAuthenticated()]
