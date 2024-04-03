@@ -21,29 +21,21 @@ pip install -r requirements.txt
 #### Set Up for Windows
 ```angular2html
 python3 -m venv venv
-.\env\Scripts\activate
+env\Scripts\activate
 pip3 install -r requirements.txt
 ```
 
-#### Set Up secret key and database for Windows
+#### Make migrations
 ```angular2html
-set SECRET_KEY=<your secret key>
-  
-python3 manage.py makemigrations
-python3 manage.py migrate
+
+python manage.py makemigrations
+python manage.py migrate
 ```
 
-#### Set Up secret key and database for Unix, macOS
-```angular2html
-export SECRET_KEY=<your secret key>
-  
-python3 manage.py makemigrations
-python3 manage.py migrate
-```
 
 #### Start the app
 ```angular2html
-python3 manage.py runserver
+python manage.py runserver
 ```
 
 ## Features

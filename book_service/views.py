@@ -7,6 +7,7 @@ from book_service.models import Book
 from book_service.serializers import BookSerializer
 from book_service.utils.schemas import book_list_schema
 
+
 @extend_schema_view(
     list=book_list_schema()
 )
