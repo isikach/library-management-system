@@ -27,6 +27,6 @@ class BookViewSet(viewsets.ModelViewSet):
             return [permissions.AllowAny()]
 
         elif self.action == "retrieve":
-            return [permissions.IsAuthenticated()]
+            return [permissions.AllowAny()]
 
         return super().get_permissions()
