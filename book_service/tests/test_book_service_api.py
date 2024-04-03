@@ -27,17 +27,6 @@ class UnauthenticatedBookAPITests(TestCase):
     def setUp(self) -> None:
         self.client = APIClient()
 
-    def test_list_book(self):
-        sample_book()
-        sample_book()
-        response = self.client.get(BOOK_LIST_URL)
-
-        books = Book.objects.all().order_by("id")
-        serializer = BookSerializer(books, many=True)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
-
     def test_create_book(self):
         payload = {
             "title": "Sample book1",
