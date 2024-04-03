@@ -47,7 +47,11 @@ class PaymentService:
         )
 
     @classmethod
-    def _create_stripe_session(cls, borrowing, money_to_pay):
+    def _create_stripe_session(
+        cls,
+        borrowing: Borrowing,
+        money_to_pay: Decimal
+    ) -> stripe.checkout.Session:
         stripe.api_key = cls.STRIPE_API_KEY
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -71,7 +75,7 @@ class PaymentService:
         return session
 
     @classmethod
-    def set_status_as_paid(cls, session_id):
+    def set_status_as_paid(cls, session_id: str) -> None:
         stripe.api_key = cls.STRIPE_API_KEY
         stripe.checkout.Session.retrieve(session_id)
         payment = Payment.objects.get(session_id=session_id)
