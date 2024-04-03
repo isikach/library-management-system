@@ -35,19 +35,6 @@ def get_overdue_books_for_user(user_id: int) -> str:
 def notification_about_overdue() -> None:
     overdue_users = get_overdue_users()
     for user in overdue_users:
-        books = get_overdue_books_for_user(user.user_id)
+        books = get_overdue_books_for_user(user.id)
         BookBorrowingBot().overdue_borrowing_notification(
             user=user, books=books)
-
-
-schedule_time = timezone.localtime(timezone.now()).replace(
-    hour=9,
-    minute=0,
-    second=0
-)
-
-schedule(
-    "notification_about_overdue",
-    schedule_type="D",
-    next_run=schedule_time
-)
