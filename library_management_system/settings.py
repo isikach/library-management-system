@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,7 +48,8 @@ INSTALLED_APPS = [
     "borrowing_service",
     "payment_service",
     "notification_service",
-    "django_q",
+    "django_celery_beat",
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +126,20 @@ USE_I18N = True
 
 USE_TZ = True
 
+CELERY_TIMEZONE = "Europe/Kiev"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_CACHE_BACKEND = 'default'
+
+# django setting.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -164,4 +181,10 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZE"
 }
 
+CELERY_BEAT_SCHEDULE = {
 
+    'execute-every-minute': {
+        'task': 'notification_service.tasks.send_test_message',
+        'schedule': crontab(minute='*/5'),
+    },
+}
