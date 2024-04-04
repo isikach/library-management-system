@@ -10,7 +10,7 @@ django.setup()
 
 
 class BookBorrowingBot:
-    API_TOKEN = os.environ.get("API_TOKEN")
+    API_TOKEN = os.environ.get('API_TOKEN')
 
     def __init__(self) -> None:
         self.bot = telebot.TeleBot(self.API_TOKEN)
@@ -24,6 +24,7 @@ class BookBorrowingBot:
     def get_user_chat_id(self, message: telebot.types.Message) -> None:
         email = message.text
         chat_id = message.chat.id
+        print(chat_id)
 
         try:
             user = get_user_model().objects.get(email=email)
@@ -32,7 +33,7 @@ class BookBorrowingBot:
             user.save()
             self.bot.send_message(chat_id, "Now you can get info from our service")
         except get_user_model().DoesNotExist:
-            self.bot.send_message(chat_id, "Please enter a valid e-mail")
+            self.bot.send_message(chat_id, f"Please enter a valid e-mail")
 
     def create_borrowing_notification(
             self,
@@ -65,6 +66,16 @@ class BookBorrowingBot:
             chat_id,
             f"Your borrowing is overdue for the following books: {books}."
         )
+
+    def send_test_message(self) -> None:
+#        chat_ids = [529079084, 747368787]
+        chat_ids = [529079084, 482311781]
+        for user_id in chat_ids:
+            print(f"Sending test to user {user_id}")
+            self.bot.send_message(
+                chat_id=user_id,
+                text="this is a test message, I want to send it every 5 minutes"
+            )
 
     def start_polling(self) -> None:
         self.bot.polling()
