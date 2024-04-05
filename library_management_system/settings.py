@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -89,8 +90,12 @@ WSGI_APPLICATION = "library_management_system.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("POSTGRES_DB"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        "PORT": os.environ.get("POSTGRES_PORT"),
     }
 }
 
@@ -130,7 +135,7 @@ CELERY_TIMEZONE = "Europe/Kiev"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_RESULT_BACKEND = 'django-db'
-
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq3:5672//"
 CELERY_CACHE_BACKEND = 'default'
 
 # django setting.
@@ -185,6 +190,6 @@ CELERY_BEAT_SCHEDULE = {
 
     'execute-every-minute': {
         'task': 'notification_service.tasks.send_test_message',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(),
     },
 }

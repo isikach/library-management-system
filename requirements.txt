@@ -38,3 +38,7 @@ urllib3==2.2.1
 telegram==0.0.1
 pyTelegramBotAPI==4.16.1
 celery~=5.3.6
+psycopg-binary==3.1.12
+psycopg==3.1.12
+django-celery-beat==2.6.0
+django-celery-results==2.5.1

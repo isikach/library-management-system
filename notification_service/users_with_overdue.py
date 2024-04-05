@@ -1,7 +1,6 @@
 from typing import List
 
 from django.contrib.auth import get_user_model
-from django_q.tasks import schedule
 from django.utils import timezone
 
 from notification_service.telegram_bot import BookBorrowingBot

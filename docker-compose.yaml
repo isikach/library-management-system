@@ -1,0 +1,53 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"
+    restart: on-failure
+
+  db:
+    image: postgres:16.0-alpine3.17
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - /var/run/postgresql:/var/run/postgresql
+    ports:
+      - "5432:5432"
+
+  library_management_system:
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000 &&
+      python -m notification_service.telegram_bot"
+    depends_on:
+      - db
+
+  celery:
+    build:
+      context: .
+    restart: always
+    command: "celery -A library_management_system worker -l INFO"
+    depends_on:
+      - rabbitmq
+      - db
+
+  celery-beat:
+    build:
+      context: .
+    restart: always
+    command: "celery -A library_management_system beat -l info"
+    depends_on:
+      - rabbitmq
+      - db
+      - celery
