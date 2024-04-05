@@ -10,7 +10,8 @@ django.setup()
 
 
 class BookBorrowingBot:
-    API_TOKEN = os.environ.get('API_TOKEN')
+
+    API_TOKEN = os.environ.get("API_TOKEN")
 
     def __init__(self) -> None:
         self.bot = telebot.TeleBot(self.API_TOKEN)
@@ -68,13 +69,13 @@ class BookBorrowingBot:
         )
 
     def send_test_message(self) -> None:
-#        chat_ids = [529079084, 747368787]
-        chat_ids = [529079084, 482311781]
+        chat_ids = [529079084]
         for user_id in chat_ids:
             print(f"Sending test to user {user_id}")
             self.bot.send_message(
                 chat_id=user_id,
-                text="this is a test message, I want to send it every 5 minutes"
+                text="this is a test message, "
+                     "I want to send it to you every 1 minutes"
             )
 
     def start_polling(self) -> None:
@@ -82,5 +83,6 @@ class BookBorrowingBot:
 
 
 if __name__ == "__main__":
+    print("Starting telegram bot")
     bot = BookBorrowingBot()
     bot.start_polling()
